@@ -258,7 +258,7 @@ function cccp_polly_change_polly() {
     ");
 
     foreach ($questions as $question) {
-            echo "<p><b>ID=".$question->id."</b> ".$question->question."</p>"."<input type='text' value='.$question->question.'>";
+            echo "<p><b>ID=".$question->id."</b> ".$question->question."</p>"."<input type='text' value='".$question->question."'>";
             foreach ($answers as $answer) {
                 echo "<ul>";
                 if ($question->id == $answer->parent) {
