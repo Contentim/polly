@@ -266,8 +266,10 @@ function cccp_polly_change_polly() {
                 }
                 echo "</ul>";
             }
+
+        echo "<input type='submit' name='submit_question_".$question->id."' value='Сохранить'>";
         }
-    echo "<input type='submit' name='submit_question_".$question->id."' value='Сохранить'>";
+
 }
 
 function cccp_polly_add_polly(){
