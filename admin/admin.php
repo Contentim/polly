@@ -5,11 +5,12 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 //$page1 = add_submenu_page('msp_helloworld', 'Overview : Creative Image Slider', 'Overview', 'manage_options', 'msp_helloworld', 'wpcis_admin');
 
 function cccp_polly_add_options_link() {
-    echo '<script src="'.plugin_dir_url( __FILE__ ) .'/js/jquery-ui.js"></script>';
-    echo '<script src="'.plugin_dir_url( __FILE__ ) .'/js/custom.js"></script>';
+    echo '<script src="'.plugin_dir_url( __FILE__ ) .'js/jquery-1.11.3.min.js"></script>';
+    echo '<script src="'.plugin_dir_url( __FILE__ ) .'js/jquery-ui.js"></script>';
+    echo '<script src="'.plugin_dir_url( __FILE__ ) .'js/custom.js"></script>';
 //    echo '<link href="'.plugin_dir_url( __FILE__ ) .'/css/bootstrap.min.css" rel="stylesheet" type="text/css">';
-    echo '<link href="'.plugin_dir_url( __FILE__ ) .'/css/jquery-ui.css" rel="stylesheet" type="text/css">';
-    echo '<link href="'.plugin_dir_url( __FILE__ ) .'/css/common.css" rel="stylesheet" type="text/css">';
+    echo '<link href="'.plugin_dir_url( __FILE__ ) .'css/jquery-ui.css" rel="stylesheet" type="text/css">';
+    echo '<link href="'.plugin_dir_url( __FILE__ ) .'css/common.css" rel="stylesheet" type="text/css">';
 }
 
  

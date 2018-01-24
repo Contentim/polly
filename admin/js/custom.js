@@ -5,7 +5,7 @@
     });
 
     var output = $('#output'); // блок вывода информации
-    $('#submit_question_1').on('click', function(){
+    $('button').on('click', function(){
         console.log('sdnfsndf.,');
         /*$.ajax({
             url: '/action.php', // путь к php-обработчику
