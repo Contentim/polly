@@ -14,7 +14,7 @@ function cccp_polly_add_options_link() {
 
  
 function cccp_polly_admin_pages(){
-    $icon_url=plugins_url( '/images/icon.png' , __FILE__ );
+    $icon_url = plugins_url( '/images/icon.png' , __FILE__ );
     add_menu_page(
         'Тестовая страница',
         'CCCP Polly',
@@ -151,34 +151,35 @@ function cccp_options_page() {
     foreach ($future_id as $value) { $maxid = $value->maxid + 1; }
 
     echo "
-        <table>
-            <tr>
-                <td>Задайте вопрос...</td>
-                <td><input type='text' name='cccp_polly_question' /><br>
-                <input type='hidden' name='cccp_polly_future_id' value='".$maxid."'/></td>
-            </tr>
-            <tr>
-                <td>Ответ №1</td>
-                <td><input type='text' name='cccp_polly_answer[]' /></td>
-            </tr>
-            <tr>
-                <td>Ответ №2</td>
-                <td><input type='text' name='cccp_polly_answer[]' /></td>
-            </tr>
-            <tr>
-                <td>Ответ №3</td>
-                <td><input type='text' name='cccp_polly_answer[]' /></td>
-            </tr>
-            <tr>
-                <td><input type='submit' name='cccp_polly_add_polly_btn' value='Создать' /></td>
-                <td></td>
-            </tr>
-            <tr>
-                <td></td>
-                <td></td>
-            </tr>
-        </table>
-    </form>
+        
+            <table>
+                <tr>
+                    <td>Задайте вопрос...</td>
+                    <td><input type='text' name='cccp_polly_question' /><br>
+                    <input type='hidden' name='cccp_polly_future_id' value='".$maxid."'/></td>
+                </tr>
+                <tr>
+                    <td>Ответ №1</td>
+                    <td><input type='text' name='cccp_polly_answer[]' /></td>
+                </tr>
+                <tr>
+                    <td>Ответ №2</td>
+                    <td><input type='text' name='cccp_polly_answer[]' /></td>
+                </tr>
+                <tr>
+                    <td>Ответ №3</td>
+                    <td><input type='text' name='cccp_polly_answer[]' /></td>
+                </tr>
+                <tr>
+                    <td><input type='submit' name='cccp_polly_add_polly_btn' value='Создать' /></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                </tr>
+            </table>
+        
     ";
 
     $table_question = $wpdb->get_blog_prefix().'cccp_polly_question';
@@ -249,16 +250,19 @@ function cccp_polly_change_polly() {
         SELECT wp_cccp_polly_question.question, wp_cccp_polly_answer.answer FROM `wp_cccp_polly_question`, `wp_cccp_polly_answer` WHERE wp_cccp_polly_question.id = wp_cccp_polly_answer.parent
     ");*/
 
+    /*выборка вопросов*/
     $questions = $wpdb->get_results("
         SELECT wp_cccp_polly_question.id, wp_cccp_polly_question.question FROM `wp_cccp_polly_question`
     ");
 
+    /*выборка ответов*/
     $answers = $wpdb->get_results("
         SELECT wp_cccp_polly_answer.parent, wp_cccp_polly_answer.answer FROM `wp_cccp_polly_answer`
     ");
 
+    echo "<form action='action.php' method='post'>";
     foreach ($questions as $question) {
-            echo "<p><b>ID=".$question->id."</b> ".$question->question."</p>"."<input name='question_".$question->id."' type='text' value='".$question->question."'>";
+            echo "<p><b>ID=".$question->id."</b> <input name='question_".$question->id."' type='text' value='".$question->question."'></p>";
             foreach ($answers as $answer) {
                 echo "<ul>";
                 if ($question->id == $answer->parent) {
@@ -267,8 +271,14 @@ function cccp_polly_change_polly() {
                 echo "</ul>";
             }
 
-        echo "<input type='submit' name='submit_question_".$question->id."' value='Сохранить'>";
-        }
+        echo "<input type='submit' name='submit_question_".$question->id."' value='Сохранить вопрос №".$question->id."'>";
+        echo "<input type='submit' name='submit_remove_question_".$question->id."' value='Удалить'>";
+    }
+    echo "</form>";
+
+}
+
+function cccp_polly_update_questions(){
 
 }
 
