@@ -222,10 +222,39 @@ function cccp_options_page() {
     function add_shortcode() {
         echo "sdfsdf";
     }
-
-    if (@$_REQUEST['submit']) echo "Кнопка нажата!";
-
     // add_shortcode( 'test_shortcode', 'add_shortcode' );
+
+
+    //add_action('admin_print_scripts', 'my_action_javascript'); // такое подключение будет работать не всегда
+    add_action('admin_print_footer_scripts', 'my_action_javascript', 99);
+    function my_action_javascript() {
+        ?>
+        <script type="text/javascript" >
+            jQuery(document).ready(function($) {
+                var data = {
+                    action: 'my_action',
+                    whatever: 1234
+                };
+
+                // с версии 2.8 'ajaxurl' всегда определен в админке
+                jQuery.post( ajaxurl, data, function(response) {
+                    alert('Получено с сервера: ' + response);
+                });
+            });
+        </script>
+        <?php
+    }
+
+    add_action('wp_ajax_my_action', 'my_action_callback');
+    function my_action_callback() {
+        $whatever = intval( $_POST['whatever'] );
+
+        $whatever += 10;
+        echo $whatever;
+
+        wp_die(); // выход нужен для того, чтобы в ответе не было ничего лишнего, только то что возвращает функция
+    }
+
 }
 
 function cccp_polly_change_polly() {

@@ -52,6 +52,9 @@ class cccp_polly_plugin{
         add_action('init', array($this,'register_location_content_type')); //регистрирует тип контента местоположения
         add_action('admin_menu','cccp_polly_admin_pages');
         add_action('init','cccp_polly_init');
+
+        add_action('wp_ajax_(action)', 'my_action_callback');
+        add_action('wp_ajax_nopriv_(action)', 'my_action_callback');
     }
 }
 
