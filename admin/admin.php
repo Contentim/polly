@@ -226,14 +226,24 @@ function cccp_options_page() {
 
 
     //add_action('admin_print_scripts', 'my_action_javascript'); // такое подключение будет работать не всегда
-    add_action('wp_ajax_hello', 'say_hello');
-
-    function say_hello(){
-        echo 'Hi!';
-    }
-
-
 }
+
+add_action( 'wp_ajax_hello',        'hello_callback' ); // For logged in users
+add_action( 'wp_ajax_nopriv_something', 'do_something_callback' ); // For anonymous users
+
+function hello_callback(){
+    $name = empty($_POST['name']) ? 'пользователь' : esc_attr($_POST['name']);
+    echo "User, ".$name;
+    wp_die();
+}
+
+//add_action('admin_print_scripts', 'my_action_javascript'); // такое подключение будет работать не всегда
+add_action('wp_enqueue_script', 'my_assets');
+function my_assets() {
+    wp_enqueue_script('ajax', plugins_url('js/ajax.js'), __FILE__);
+}
+
+
 
 function cccp_polly_change_polly() {
     global $wpdb;

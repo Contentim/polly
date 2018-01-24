@@ -55,6 +55,8 @@ class cccp_polly_plugin{
 
         add_action('wp_ajax_(action)', 'my_action_callback');
         add_action('wp_ajax_nopriv_(action)', 'my_action_callback');
+
+
     }
 }
 
