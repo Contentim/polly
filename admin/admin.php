@@ -179,7 +179,7 @@ function cccp_options_page() {
                     <td></td>
                 </tr>
             </table>
-        
+        </form>
     ";
 
     $table_question = $wpdb->get_blog_prefix().'cccp_polly_question';
@@ -222,6 +222,8 @@ function cccp_options_page() {
         echo "sdfsdf";
     }
 
+    if (@$_REQUEST['submit']) echo "Кнопка нажата!";
+
     // add_shortcode( 'test_shortcode', 'add_shortcode' );
 }
 
@@ -260,21 +262,25 @@ function cccp_polly_change_polly() {
         SELECT wp_cccp_polly_answer.parent, wp_cccp_polly_answer.answer FROM `wp_cccp_polly_answer`
     ");
 
-    echo "<form action='action.php' method='post'>";
-    foreach ($questions as $question) {
-            echo "<p><b>ID=".$question->id."</b> <input name='question_".$question->id."' type='text' value='".$question->question."'></p>";
-            foreach ($answers as $answer) {
-                echo "<ul>";
-                if ($question->id == $answer->parent) {
-                    echo "<li><input type='text' value='".$answer->answer."'></li>";
-                }
-                echo "</ul>";
-            }
+    echo "<div id='output'></div><br>";
 
-        echo "<input type='submit' name='submit_question_".$question->id."' value='Сохранить вопрос №".$question->id."'>";
+    foreach ($questions as $question) {
+//        echo "<form action='' method='post' name='form_question_".$question->id."'>";
+        echo "<p><b>ID=".$question->id."</b> <input name='question_".$question->id."' id='question_".$question->id."' type='text' value='".$question->question."'></p>";
+
+        foreach ($answers as $answer) {
+            echo "<ul>";
+            if ($question->id == $answer->parent) {
+                echo "<li><input type='text' value='".$answer->answer."'></li>";
+            }
+            echo "</ul>";
+        }
+
+//        echo "<input type='submit' name='submit_question_".$question->id."' id='submit_question_".$question->id."' value='Сохранить вопрос №".$question->id."'>";
+        echo "<button id='submit_question_".$question->id."'>Сохранить вопрос №".$question->id."</button>";
         echo "<input type='submit' name='submit_remove_question_".$question->id."' value='Удалить'>";
+//        echo "</form>";
     }
-    echo "</form>";
 
 }
 
