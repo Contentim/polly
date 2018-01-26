@@ -9,7 +9,6 @@ function polly_scripts_method(){
     wp_register_script( 'jquery', 'http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js');
     wp_enqueue_script( 'jquery' );
 
-    $script_url = plugins_url( 'js/custom.js', __FILE__ );
     wp_enqueue_script('custom-script', $script_url, array('jquery') );
 }
 
@@ -36,7 +35,6 @@ function cccp_polly_add_options_link() {
 //    echo '<script src="'.plugin_dir_url( __FILE__ ) .'js/jquery-1.11.3.min.js"></script>';
 //    echo '<script src="'.plugin_dir_url( __FILE__ ) .'js/123213123.js"></script>';
 //    echo '<script src="'.plugin_dir_url( __FILE__ ) .'js/jquery-ui.js"></script>';
-//    echo '<script src="'.plugin_dir_url( __FILE__ ) .'js/custom.js"></script>';
 //    echo '<link href="'.plugin_dir_url( __FILE__ ) .'/css/bootstrap.min.css" rel="stylesheet" type="text/css">';
     echo '<link href="'.plugin_dir_url( __FILE__ ) .'css/jquery-ui.css" rel="stylesheet" type="text/css">';
     echo '<link href="'.plugin_dir_url( __FILE__ ) .'css/common.css" rel="stylesheet" type="text/css">';
