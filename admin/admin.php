@@ -70,16 +70,12 @@ function cccp_polly_admin_pages(){
 
 }
 
-
-
-
 function cccp_options_page() {
 
     global $wpdb;
+?>
+    <h1><span><?php _e('Тестовая страница','CCCP Polly'); ?></span> Отладочная страница для будущего плагина слайдера</h1>
 
-    echo "<h1><span>TEST:</span> Отладочная страница для будущего плагина слайдера</h1>";
-
-    echo "
         <table class='hide'>
             <tr>
                 <td>
@@ -87,50 +83,46 @@ function cccp_options_page() {
                 </td>
             </tr>
         </table>
-    ";
 
-    echo "
-        <table class=\"wp-list-table widefat fixed striped posts wp-listslides-table hide \">
+        <table class="wp-list-table widefat fixed striped posts wp-listslides-table hide ">
 		<thead>
 			<tr>
-				<th class=\"manage-column column-title column-primary sortable title\" id=\"title\" scope=\"col\">Заголовок</th>
-				<th class=\"manage-column column-shortcode sortable shortcode\" id=\"date\" scope=\"col\">Шорткод</th>
-				<th class=\"manage-column column-id\" id=\"post_id\" scope=\"col\">ID</th>
-				<th class=\"manage-column column-delete\" id=\"post_id\" scope=\"col\"></th>
+				<th class"manage-column column-title column-primary sortable title" id="title" scope="col">Заголовок</th>
+				<th class="manage-column column-shortcode sortable shortcode" id="date" scope="col">Шорткод</th>
+				<th class="manage-column column-id" id="post_id" scope="col">ID</th>
+				<th class="manage-column column-delete" id="post_id" scope="col"></th>
 			</tr>
 		</thead>
-		<tbody id=\"the-list\">
-			<tr class=\"iedit author-other level-0 post-4820 type-sleek-slider status-publish has-post-thumbnail hentry category_slider-slider_foto\" id=\"post-4820\">
-				<td class=\"mels-slider-title\" ><a href=\"javascript:;\">Слайдер на главной</a></td>
-				<td class=\"mels-slider-shortcode\">[slider-4820]</td>
-				<td class=\"mels-slider-id\">4820</td>
-				<td class=\"mels-slider-delete-current-item\"><a href='javascript:;'>Удалить</a></td>
+		<tbody id="the-list">
+			<tr class="iedit author-other level-0 post-4820 type-sleek-slider status-publish has-post-thumbnail hentry category_slider-slider_foto" id="post-4820">
+				<td class="mels-slider-title" ><a href="javascript:;">Слайдер на главной</a></td>
+				<td class="mels-slider-shortcode">[slider-4820]</td>
+				<td class="mels-slider-id">4820</td>
+				<td class="mels-slider-delete-current-item"><a href='javascript:;'>Удалить</a></td>
 			</tr>
-			<tr class=\"iedit author-other level-0 post-4820 type-sleek-slider status-publish has-post-thumbnail hentry category_slider-slider_foto\" id=\"post-4820\">
-				<td class=\"mels-slider-title\" ><a href=\"javascript:;\">Слайдер на главной</a></td>
-				<td class=\"mels-slider-shortcode\">[slider-4820]</td>
-				<td class=\"mels-slider-id\">4820</td>
-				<td class=\"mels-slider-delete-current-item\"><a href='javascript:;'>Удалить</a></td>
+			<tr class="iedit author-other level-0 post-4820 type-sleek-slider status-publish has-post-thumbnail hentry category_slider-slider_foto" id="post-4820">
+				<td class="mels-slider-title" ><a href="javascript:;">Слайдер на главной</a></td>
+				<td class="mels-slider-shortcode">[slider-4820]</td>
+				<td class="mels-slider-id">4820</td>
+				<td class="mels-slider-delete-current-item"><a href='javascript:;'>Удалить</a></td>
 			</tr>
-			<tr class=\"iedit author-other level-0 post-4820 type-sleek-slider status-publish has-post-thumbnail hentry category_slider-slider_foto\" id=\"post-4820\">
-				<td class=\"mels-slider-title\" ><a href=\"javascript:;\">Слайдер на главной</a></td>
-				<td class=\"mels-slider-shortcode\">[slider-4820]</td>
-				<td class=\"mels-slider-id\">4820</td>
-				<td class=\"mels-slider-delete-current-item\"><a href='javascript:;'>Удалить</a></td>
+			<tr class="iedit author-other level-0 post-4820 type-sleek-slider status-publish has-post-thumbnail hentry category_slider-slider_foto" id="post-4820">
+				<td class="mels-slider-title" ><a href="javascript:;">Слайдер на главной</a></td>
+				<td class="mels-slider-shortcode">[slider-4820]</td>
+				<td class="mels-slider-id">4820</td>
+				<td class="mels-slider-delete-current-item"><a href='javascript:;'>Удалить</a></td>
 			</tr>
 		</tbody>
 		<tfoot>
 			<tr>
-				<th class=\"manage-column column-title column-primary sortable title\" id=\"title\" scope=\"col\">Заголовок</th>
-				<th class=\"manage-column column-shortcode sortable shortcode\" id=\"date\" scope=\"col\">Шорткод</th>
-				<th class=\"manage-column column-id\" id=\"post_id\" scope=\"col\">ID</th>
-				<th class=\"manage-column column-delete\" id=\"post_id\" scope=\"col\"></th>
+				<th class="manage-column column-title column-primary sortable title" id="title" scope="col">Заголовок</th>
+				<th class="manage-column column-shortcode sortable shortcode" id="date" scope="col">Шорткод</th>
+				<th class="manage-column column-id" id="post_id" scope="col">ID</th>
+				<th class="manage-column column-delete" id="post_id" scope="col"></th>
 			</tr>
 		</tfoot>
 	</table>
-    ";
 
-    echo '
         <div class="msp-panel-body hide">
             <div class="wrap_vertical_tab">
                 <div id="tabs-msp-slider">
@@ -161,14 +153,12 @@ function cccp_options_page() {
                 </div>
             </div>
         </div>
-    ';
 
-    echo "<h2>Добавить вопрос</h2>";
+        <h2>Добавить вопрос</h2>
+<!--        <form name='cccp_polly_add_polly_form' method='post' action='--><?// $_SERVER['PHP_SELF']?><!--?page=cccp_polly&amp;update=true'>-->
+        <form name='cccp_polly_add_polly_form' method='post' action='<? echo $_SERVER['PHP_SELF']?>' id='add_new_question'>
 
-    echo "
-            <form name='cccp_polly_add_polly_form' method='post' action='".$_SERVER['PHP_SELF']."?page=cccp_polly&amp;update=true'>  
-        ";
-
+<?php
     /*if (function_exists('wp_nonce_field')) {
         wp_nonce_field('cccp_polly_add_polly_form');
     }*/
@@ -178,45 +168,111 @@ function cccp_options_page() {
     ");
 
     foreach ($future_id as $value) { $maxid = $value->maxid + 1; }
+?>
+        <table>
+            <tr>
+                <td>Задайте вопрос...</td>
+                <td><input type='text' name='cccp_polly_new_question' id='new_question' value='Эта функция будет вызвана только на странице плагина?' /><br>
+                <input type='hidden' name='cccp_polly_future_id' value='<?php echo $maxid; ?>'/></td>
+            </tr>
+            <tr>
+                <td>Ответ №1</td>
+                <td><input type='text' name='cccp_polly_answer[]' value='Да' /></td>
+            </tr>
+            <tr>
+                <td>Ответ №2</td>
+                <td><input type='text' name='cccp_polly_answer[]' value='Нет' /></td>
+            </tr>
+            <tr>
+                <td>Ответ №3</td>
+                <td><input type='text' name='cccp_polly_answer[]' value='Не знаю' /></td>
+            </tr>
+            <tr>
+                <!--<td><input type='submit' name='cccp_polly_add_polly_btn' id='cccp_polly_add_polly_btn' value='Создать' /></td>-->
+                <td><input type='button' name='cccp_polly_add_polly_btn' id='cccp_polly_add_polly_btn' class='button-primary' value='Создать' /></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><div id='result'></div></td>
+                <td></td>
+            </tr>
+        </table>
+    </form>
 
-    echo "
-        
-            <table>
-                <tr>
-                    <td>Задайте вопрос...</td>
-                    <td><input type='text' name='cccp_polly_new_question' value='Новый опросник' /><br>
-                    <input type='hidden' name='cccp_polly_future_id' value='".$maxid."'/></td>
-                </tr>
-                <tr>
-                    <td>Ответ №1</td>
-                    <td><input type='text' name='cccp_polly_answer[]' value='врп - 1' /></td>
-                </tr>
-                <tr>
-                    <td>Ответ №2</td>
-                    <td><input type='text' name='cccp_polly_answer[]' value='врп - 2' /></td>
-                </tr>
-                <tr>
-                    <td>Ответ №3</td>
-                    <td><input type='text' name='cccp_polly_answer[]' value='врп - 3' /></td>
-                </tr>
-                <tr>
-                    <!--<td><input type='submit' name='cccp_polly_add_polly_btn' id='cccp_polly_add_polly_btn' value='Создать' /></td>-->
-                    <td><input type='button' name='cccp_polly_add_polly_btn' id='cccp_polly_add_polly_btn' value='Создать' /></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td></td>
-                    <td></td>
-                </tr>
-            </table>
-        </form>
-    ";
+<?php
+/*
+    $future_id = $wpdb->get_results("
+        SELECT max(id) as `maxid` FROM `wp_cccp_polly_question`
+    ");
+
+    foreach ($future_id as $value) { $maxid = $value->maxid + 1; }
 
     $table_question = $wpdb->get_blog_prefix().'cccp_polly_question';
     $table_answer = $wpdb->get_blog_prefix().'cccp_polly_answer';
 
     if (isset($_POST['cccp_polly_add_polly_btn'])){
         $cccp_polly_question = $_POST['cccp_polly_question'];
+        $cccp_polly_answer = $_POST['cccp_polly_answer'];
+
+        $wpdb->insert(
+            $table_question,
+            array('question'=>$cccp_polly_question,'shortcode'=>''),
+            array('%s','%s')
+        );
+
+        $wpdb->insert(
+                $table_answer,
+                array('answer'=>$cccp_polly_answer,'counter'=>'0', 'parent'=>$maxid),
+                array('%s','%s','%s')
+            );
+
+        function polly_add_answers($wpdb, $table_answer, $value, $parentId){
+            $wpdb->insert(
+                $table_answer,
+                array('answer'=>$value,'counter'=>'0', 'parent'=>$parentId),
+                array('%s','%s','%s')
+            );
+        }
+
+        foreach($cccp_polly_answer as $value) {
+            polly_add_answers($wpdb, $table_answer, $value, $maxid);
+        };
+
+    }
+*/
+    echo "<h2>Список вопросов</h2>";
+    cccp_polly_change_polly();
+
+    function add_shortcode() {
+        echo "sdfsdf";
+    }
+    // add_shortcode( 'test_shortcode', 'add_shortcode' );
+
+
+    //add_action('admin_print_scripts', 'my_action_javascript'); // такое подключение будет работать не всегда
+}
+
+add_action( 'wp_ajax_new_question', 'new_question' ); // For logged in users
+//add_action( 'wp_ajax_nopriv_something', 'do_something_callback' ); // For anonymous users
+
+function new_question(){
+    global $wpdb;
+    $future_id = $wpdb->get_results("
+        SELECT max(id) as `maxid` FROM `wp_cccp_polly_question`
+    ");
+
+    foreach ($future_id as $value) { $maxid = $value->maxid + 1; }
+
+    echo '<p>'.date("H:m:s").'</p>';
+
+    $table_question = $wpdb->get_blog_prefix().'cccp_polly_question';
+    $table_answer = $wpdb->get_blog_prefix().'cccp_polly_answer';
+
+//    print_r($_POST['cccp_polly_new_question']);
+    print_r($table_question);
+
+    if (isset($_POST['cccp_polly_add_polly_btn'])){
+        $cccp_polly_question = $_POST['cccp_polly_new_question'];
         $cccp_polly_answer = $_POST['cccp_polly_answer'];
 
         $wpdb->insert(
@@ -242,33 +298,18 @@ function cccp_options_page() {
         foreach($cccp_polly_answer as $value) {
             polly_add_answers($wpdb, $table_answer, $value, $maxid);
         };
-        
+
     }
 
-    echo "<h2>Список вопросов</h2>";
-    cccp_polly_change_polly();
-
-    function add_shortcode() {
-        echo "sdfsdf";
-    }
-    // add_shortcode( 'test_shortcode', 'add_shortcode' );
-
-
-    //add_action('admin_print_scripts', 'my_action_javascript'); // такое подключение будет работать не всегда
-}
-
-add_action( 'wp_ajax_new_question', 'new_question_callback' ); // For logged in users
-//add_action( 'wp_ajax_nopriv_something', 'do_something_callback' ); // For anonymous users
-
-function new_question_callback(){
-    $new_question = trim($_POST['cccp_polly_new_question']);
     wp_die();
 }
 
-add_action('wp_enqueue_script', 'my_assets');
+/*add_action('wp_enqueue_script', 'my_assets');
 function my_assets() {
-    wp_enqueue_script('ajax', plugins_url('/admin/js/ajax.js', __FILE__));
-}
+//    wp_enqueue_script('ajax', plugins_url('/admin/js/ajax.js', __FILE__));
+    $ajax_js = plugins_url( 'js/ajax.js', __FILE__ );
+    wp_enqueue_script('ajax_js', $ajax_js, array('jquery') );
+}*/
 
 
 
@@ -322,8 +363,8 @@ function cccp_polly_change_polly() {
         }
 
 //        echo "<input type='submit' name='submit_question_".$question->id."' id='submit_question_".$question->id."' value='Сохранить вопрос №".$question->id."'>";
-        echo "<button id='submit_question_".$question->id."'>Сохранить вопрос №".$question->id."</button>";
-        echo "<input type='submit' name='submit_remove_question_".$question->id."' value='Удалить'>";
+        echo "<button id='submit_question_".$question->id."' class='button-primary'>Сохранить вопрос №".$question->id."</button> ";
+        echo "<input type='submit' name='submit_remove_question_".$question->id."' value='Удалить' class='button-primary'>";
 //        echo "</form>";
     }
 
