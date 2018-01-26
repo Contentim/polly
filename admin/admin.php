@@ -3,17 +3,8 @@
 if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 
 //$page1 = add_submenu_page('msp_helloworld', 'Overview : Creative Image Slider', 'Overview', 'manage_options', 'msp_helloworld', 'wpcis_admin');
-/*
-function polly_scripts_method(){
-    wp_deregister_script( 'jquery' );
-    wp_register_script( 'jquery', 'http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js');
-    wp_enqueue_script( 'jquery' );
 
-    wp_enqueue_script('custom-script', $script_url, array('jquery') );
-}
-
-add_action( 'wp_enqueue_scripts', 'polly_scripts_method' );*/
-
+// подключение скриптов на всех страницах админки
 add_action('init', 'init_scripts_method');
 function init_scripts_method() {
     wp_deregister_script( 'jquery' );
@@ -26,8 +17,6 @@ function init_scripts_method() {
     $polly_common_js = plugins_url( 'js/polly_common.js', __FILE__ );
     wp_enqueue_script('polly_common_js', $polly_common_js, array('jquery') );
 
-    $ajax_js = plugins_url( 'js/ajax.js', __FILE__ );
-    wp_enqueue_script('ajax_js', $ajax_js, array('jquery') );
 }
 
 function cccp_polly_add_options_link() {
@@ -71,14 +60,14 @@ function cccp_polly_admin_pages(){
 //    add_submenu_page( 'helloworld-submenu.php', 'Заголовок страницы', 'Название пункта меню', 'manage_options', basename(dirname(__FILE__)).'/helloworld-submenu.php' );
 
     // Используем зарегистрированную страницу для загрузки скрипта
-    add_action( 'admin_print_scripts-'.$page, 'my_plugin_admin_scripts' );
-    add_action( 'admin_print_scripts-'.$sub_menu, 'my_plugin_admin_scripts' );
+    add_action( 'admin_print_scripts-'.$page, 'init_admin_scripts_main_menu' );
 
     ## Эта функция будет вызвана только на странице плагина, подключаем скрипт
-    function my_plugin_admin_scripts() {
+    function init_admin_scripts_main_menu() {
         $ajax_js = plugins_url( 'js/ajax.js', __FILE__ );
         wp_enqueue_script('ajax_js', $ajax_js, array('jquery') );
     }
+
 }
 
 
@@ -195,23 +184,24 @@ function cccp_options_page() {
             <table>
                 <tr>
                     <td>Задайте вопрос...</td>
-                    <td><input type='text' name='cccp_polly_question' /><br>
+                    <td><input type='text' name='cccp_polly_new_question' value='Новый опросник' /><br>
                     <input type='hidden' name='cccp_polly_future_id' value='".$maxid."'/></td>
                 </tr>
                 <tr>
                     <td>Ответ №1</td>
-                    <td><input type='text' name='cccp_polly_answer[]' /></td>
+                    <td><input type='text' name='cccp_polly_answer[]' value='врп - 1' /></td>
                 </tr>
                 <tr>
                     <td>Ответ №2</td>
-                    <td><input type='text' name='cccp_polly_answer[]' /></td>
+                    <td><input type='text' name='cccp_polly_answer[]' value='врп - 2' /></td>
                 </tr>
                 <tr>
                     <td>Ответ №3</td>
-                    <td><input type='text' name='cccp_polly_answer[]' /></td>
+                    <td><input type='text' name='cccp_polly_answer[]' value='врп - 3' /></td>
                 </tr>
                 <tr>
-                    <td><input type='submit' name='cccp_polly_add_polly_btn' value='Создать' /></td>
+                    <!--<td><input type='submit' name='cccp_polly_add_polly_btn' id='cccp_polly_add_polly_btn' value='Создать' /></td>-->
+                    <td><input type='button' name='cccp_polly_add_polly_btn' id='cccp_polly_add_polly_btn' value='Создать' /></td>
                     <td></td>
                 </tr>
                 <tr>
@@ -267,12 +257,11 @@ function cccp_options_page() {
     //add_action('admin_print_scripts', 'my_action_javascript'); // такое подключение будет работать не всегда
 }
 
-add_action( 'wp_ajax_hello', 'hello_callback' ); // For logged in users
+add_action( 'wp_ajax_new_question', 'new_question_callback' ); // For logged in users
 //add_action( 'wp_ajax_nopriv_something', 'do_something_callback' ); // For anonymous users
 
-function hello_callback(){
-    $name = empty($_POST['name']) ? 'пользователь' : esc_attr($_POST['name']);
-    echo "User, ".$name;
+function new_question_callback(){
+    $new_question = trim($_POST['cccp_polly_new_question']);
     wp_die();
 }
 

@@ -1,6 +1,6 @@
 jQuery(document).ready(function($){
     var data = {
-        action: 'hello',
+        action: 'new_question',
         name: 'Юзверь'
     };
 
