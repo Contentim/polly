@@ -4,13 +4,26 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 
 //$page1 = add_submenu_page('msp_helloworld', 'Overview : Creative Image Slider', 'Overview', 'manage_options', 'msp_helloworld', 'wpcis_admin');
 
+
+
 function cccp_polly_add_options_link() {
-    echo '<script src="'.plugin_dir_url( __FILE__ ) .'js/jquery-1.11.3.min.js"></script>';
+
+//    echo '<script src="'.plugin_dir_url( __FILE__ ) .'js/jquery-1.11.3.min.js"></script>';
     echo '<script src="'.plugin_dir_url( __FILE__ ) .'js/jquery-ui.js"></script>';
     echo '<script src="'.plugin_dir_url( __FILE__ ) .'js/custom.js"></script>';
 //    echo '<link href="'.plugin_dir_url( __FILE__ ) .'/css/bootstrap.min.css" rel="stylesheet" type="text/css">';
     echo '<link href="'.plugin_dir_url( __FILE__ ) .'css/jquery-ui.css" rel="stylesheet" type="text/css">';
     echo '<link href="'.plugin_dir_url( __FILE__ ) .'css/common.css" rel="stylesheet" type="text/css">';
+}
+
+// jquery регистрируется в WP по умолчанию.
+// Поэтому для его подключения достаточно одной строки:
+add_action( 'wp_enqueue_scripts', 'polly_scripts_method' );
+
+function polly_scripts_method(){
+    wp_deregister_script( 'jquery' );
+    wp_register_script( 'jquery', 'http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js');
+    wp_enqueue_script( 'jquery' )
 }
 
  
@@ -228,8 +241,8 @@ function cccp_options_page() {
     //add_action('admin_print_scripts', 'my_action_javascript'); // такое подключение будет работать не всегда
 }
 
-add_action( 'wp_ajax_hello',        'hello_callback' ); // For logged in users
-add_action( 'wp_ajax_nopriv_something', 'do_something_callback' ); // For anonymous users
+add_action( 'wp_ajax_hello', 'hello_callback' ); // For logged in users
+//add_action( 'wp_ajax_nopriv_something', 'do_something_callback' ); // For anonymous users
 
 function hello_callback(){
     $name = empty($_POST['name']) ? 'пользователь' : esc_attr($_POST['name']);
@@ -237,10 +250,9 @@ function hello_callback(){
     wp_die();
 }
 
-//add_action('admin_print_scripts', 'my_action_javascript'); // такое подключение будет работать не всегда
 add_action('wp_enqueue_script', 'my_assets');
 function my_assets() {
-    wp_enqueue_script('ajax', plugins_url('js/ajax.js'), __FILE__);
+    wp_enqueue_script('ajax', plugins_url('/admin/js/ajax.js', __FILE__));
 }
 
 
