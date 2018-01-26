@@ -3,33 +3,36 @@
 if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 
 //$page1 = add_submenu_page('msp_helloworld', 'Overview : Creative Image Slider', 'Overview', 'manage_options', 'msp_helloworld', 'wpcis_admin');
+/*
+function polly_scripts_method(){
+    wp_deregister_script( 'jquery' );
+    wp_register_script( 'jquery', 'http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js');
+    wp_enqueue_script( 'jquery' );
 
+    $script_url = plugins_url( 'js/custom.js', __FILE__ );
+    wp_enqueue_script('custom-script', $script_url, array('jquery') );
+}
 
+add_action( 'wp_enqueue_scripts', 'polly_scripts_method' );*/
 
 function cccp_polly_add_options_link() {
 
 //    echo '<script src="'.plugin_dir_url( __FILE__ ) .'js/jquery-1.11.3.min.js"></script>';
-    echo '<script src="'.plugin_dir_url( __FILE__ ) .'js/jquery-ui.js"></script>';
-    echo '<script src="'.plugin_dir_url( __FILE__ ) .'js/custom.js"></script>';
+//    echo '<script src="'.plugin_dir_url( __FILE__ ) .'js/123213123.js"></script>';
+//    echo '<script src="'.plugin_dir_url( __FILE__ ) .'js/jquery-ui.js"></script>';
+//    echo '<script src="'.plugin_dir_url( __FILE__ ) .'js/custom.js"></script>';
 //    echo '<link href="'.plugin_dir_url( __FILE__ ) .'/css/bootstrap.min.css" rel="stylesheet" type="text/css">';
     echo '<link href="'.plugin_dir_url( __FILE__ ) .'css/jquery-ui.css" rel="stylesheet" type="text/css">';
     echo '<link href="'.plugin_dir_url( __FILE__ ) .'css/common.css" rel="stylesheet" type="text/css">';
+
+
 }
 
-// jquery регистрируется в WP по умолчанию.
-// Поэтому для его подключения достаточно одной строки:
-add_action( 'wp_enqueue_scripts', 'polly_scripts_method' );
 
-function polly_scripts_method(){
-    wp_deregister_script( 'jquery' );
-    wp_register_script( 'jquery', 'http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js');
-    wp_enqueue_script( 'jquery' )
-}
 
- 
 function cccp_polly_admin_pages(){
     $icon_url = plugins_url( '/images/icon.png' , __FILE__ );
-    add_menu_page(
+    $page = add_menu_page(
         'Тестовая страница',
         'CCCP Polly',
         8,
@@ -54,7 +57,29 @@ function cccp_polly_admin_pages(){
     );
 //    add_submenu_page('msp_options_page', 'Основное доп. меню', 'Мое основное меню', 'manage_options', 'helloworld-submenu');
 //    add_submenu_page( 'helloworld-submenu.php', 'Заголовок страницы', 'Название пункта меню', 'manage_options', basename(dirname(__FILE__)).'/helloworld-submenu.php' );
+
+    // Используем зарегистрированную страницу для загрузки скрипта
+    add_action( 'admin_print_scripts-'.$page, 'my_plugin_admin_scripts' );
+
+    ## Эта функция будет вызвана только на странице плагина, подключаем скрипт
+    function my_plugin_admin_scripts() {
+//        wp_enqueue_script( 'my-plugin-script', plugins_url('/23423423423.js', __FILE__) );
+
+        wp_deregister_script( 'jquery' );
+        wp_register_script( 'jquery', 'http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js');
+        wp_enqueue_script( 'jquery' );
+
+        $jquery_ui = plugins_url( 'js/jquery-ui.js', __FILE__ );
+        wp_enqueue_script('jquery_ui', $jquery_ui, array('jquery') );
+
+        $custom_js = plugins_url( 'js/custom.js', __FILE__ );
+        wp_enqueue_script('custom_js', $custom_js, array('jquery') );
+
+        $ajax_js = plugins_url( 'js/ajax.js', __FILE__ );
+        wp_enqueue_script('ajax_js', $ajax_js, array('jquery') );
+    }
 }
+
 
 
 

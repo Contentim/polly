@@ -1,4 +1,4 @@
-$( document ).ready(function() {
+jQuery(document).ready(function($){
     var data = {
         action: 'hello',
         name: 'Юзверь'
