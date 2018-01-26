@@ -1,10 +1,19 @@
 jQuery(document).ready(function($){
 
     $('#add_new_question').click(function(){
+        var answers = [];
         var new_question = $("#new_question").val();
+        $('.loading_polly').show();
+
+        $.each($('input[name ^=cccp_polly_answer]'), function(){
+
+            answers.push($(this).val())
+        });
 
         var data = {
-            action: 'new_question'
+            action: 'new_question',
+            new_question: new_question,
+            new_answers: answers
         };
 
         // с версии 2.8 'ajaxurl' всегда определен в админке
@@ -16,6 +25,8 @@ jQuery(document).ready(function($){
             } else {
                 $('#result').text('empty');
             }
+
+            $('.loading_polly').hide();
 
         });
 
