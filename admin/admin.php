@@ -163,29 +163,34 @@ function cccp_options_page() {
         wp_nonce_field('cccp_polly_add_polly_form');
     }*/
 
+    // init tables DB
+    $table_question = $wpdb->get_blog_prefix().'cccp_polly_question';
+
     $future_id = $wpdb->get_results("
-        SELECT max(id) as `maxid` FROM `wp_cccp_polly_question`
+        SELECT max(id) as `maxid` FROM `".$table_question."`
     ");
 
     foreach ($future_id as $value) { $maxid = $value->maxid + 1; }
 ?>
-        <table>
+        <table id="add_new_polly">
             <tr>
                 <td>Задайте вопрос...</td>
                 <td><input type='text' name='cccp_polly_new_question' id='new_question' value='Эта функция будет вызвана только на странице плагина?' /><br>
                 <input type='hidden' name='cccp_polly_future_id' value='<?php echo $maxid; ?>'/></td>
             </tr>
-            <tr>
-                <td>Ответ №1</td>
-                <td><input type='text' name='cccp_polly_answer[]' value='Да' /></td>
+            <tr data-id="1">
+                <td>Ответ:</td>
+                <td ><input type='text' name='cccp_polly_answer[]' value='Да' /></td>
             </tr>
-            <tr>
-                <td>Ответ №2</td>
-                <td><input type='text' name='cccp_polly_answer[]' value='Нет' /></td>
+            <tr data-id="2">
+                <td>Ответ:</td>
+                <td ><input type='text' name='cccp_polly_answer[]' value='Нет' /></td>
             </tr>
+        </table>
+
+        <table class="control_btn_new_polly">
             <tr>
-                <td>Ответ №3</td>
-                <td><input type='text' name='cccp_polly_answer[]' value='Не знаю' /></td>
+                <td colspan="2"><input type="button" value="Добавить вопрос" class="button-primary" id="add_new_answer"/><br><br></td>
             </tr>
             <tr>
                 <!--<td><input type='submit' name='cccp_polly_add_polly_btn' id='cccp_polly_add_polly_btn' value='Создать' /></td>-->
@@ -240,12 +245,12 @@ function cccp_options_page() {
 
     }
 */
-    echo "<h2>Список вопросов</h2>";
+//    echo "<h2>Список вопросов</h2>";
     cccp_polly_change_polly();
 
-    function add_shortcode() {
+    /*function add_shortcode() {
         echo "sdfsdf";
-    }
+    }*/
     // add_shortcode( 'test_shortcode', 'add_shortcode' );
 
 
@@ -258,16 +263,18 @@ add_action( 'wp_ajax_new_question', 'new_question' ); // For logged in users
 function new_question(){
     global $wpdb;
 
+    // init tables DB
+    $table_question = $wpdb->get_blog_prefix().'cccp_polly_question';
+    $table_answer = $wpdb->get_blog_prefix().'cccp_polly_answer';
+
     // init maxid in table DB
         $future_id = $wpdb->get_results("
-            SELECT max(id) as `maxid` FROM `wp_cccp_polly_question`
+            SELECT max(id) as `maxid` FROM `".$table_question."`
         ");
 
         foreach ($future_id as $value) { $maxid = $value->maxid + 1; }
-    
-    // init tables DB
-        $table_question = $wpdb->get_blog_prefix().'cccp_polly_question';
-        $table_answer = $wpdb->get_blog_prefix().'cccp_polly_answer';
+
+
 
     // add new question to DB
         $new_question = $_POST['new_question'];
@@ -307,6 +314,9 @@ function cccp_polly_change_polly() {
     global $wpdb;
     $table_polly = $wpdb->get_blog_prefix().'cccp_polly_question';
 
+    $table_question = $wpdb->get_blog_prefix().'cccp_polly_question';
+    $table_answer = $wpdb->get_blog_prefix().'cccp_polly_answer';
+
     /*
     if (isset($_POST['cccp_polly_add_polly_btn'])){
         $id_polly = $_POST['id'];
@@ -330,34 +340,28 @@ function cccp_polly_change_polly() {
 
     /*выборка вопросов*/
     $questions = $wpdb->get_results("
-        SELECT wp_cccp_polly_question.id, wp_cccp_polly_question.question FROM `wp_cccp_polly_question`
+        SELECT ".$table_question.".id, ".$table_question.".question FROM `".$table_question."`
     ");
 
     /*выборка ответов*/
     $answers = $wpdb->get_results("
-        SELECT wp_cccp_polly_answer.parent, wp_cccp_polly_answer.answer FROM `wp_cccp_polly_answer`
+        SELECT ".$table_answer.".parent, ".$table_answer.".answer FROM `".$table_answer."`
     ");
 
-    print_r($answers);
-
-    echo "<div id='output'></div><br>";
-
     foreach ($questions as $question) {
+        echo "<ul id='data-item-".$question->id."'>";
 //        echo "<form action='' method='post' name='form_question_".$question->id."'>";
-        echo "<p><b>ID=".$question->id."</b> <input name='question_".$question->id."' id='question_".$question->id."' type='text' value='".$question->question."'></p>";
-
+        echo "<li><p><b>ID=".$question->id."</b> <input name='question_".$question->id."' id='question_".$question->id."' type='text' value='".$question->question."'></p></li>";
         foreach ($answers as $answer) {
-            echo "<ul>";
             if ($question->id == $answer->parent) {
                 echo "<li><input type='text' value='".$answer->answer."'></li>";
             }
-            echo "</ul>";
         }
-
 //        echo "<input type='submit' name='submit_question_".$question->id."' id='submit_question_".$question->id."' value='Сохранить вопрос №".$question->id."'>";
         echo "<button id='submit_question_".$question->id."' class='button-primary'>Сохранить вопрос №".$question->id."</button> ";
-        echo "<input type='submit' name='submit_remove_question_".$question->id."' value='Удалить' class='button-primary'>";
+        echo "<input type='button' name='submit_remove_question_".$question->id."' value='Удалить' class='button-primary'>";
 //        echo "</form>";
+        echo "</ul>";
     }
 
 }
