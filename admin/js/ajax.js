@@ -13,67 +13,61 @@ jQuery(document).ready(function($){
         $(this).parents('tr').remove();
     });
 
+    // add question_answers
     $('#cccp_polly_add_polly_btn').click(function(){
         var answers = [];
         var new_question = $("#new_question").val();
-        $('.loading_polly').show();
+
 
         $.each($('input[name ^= cccp_polly_answer]'), function(){
             answers.push($(this).val())
         });
 
         var data = {
-            action: 'new_question',
+            action: 'add_new_question',
             new_question: new_question,
             new_answers: answers
         };
 
         // с версии 2.8 'ajaxurl' всегда определен в админке
+        $(this).parents('ul').find('.loading_polly').show();
         $.post(ajaxurl, data, function (data) {
-            // тут вывести новый DOM-список вопрос-ответов
-            console.log(data);
-
-            if (data != '') {
-                $('#result').html(data);
-            } else {
-                $('#result').text('empty');
-            }
-
-            $('.loading_polly').hide();
+            $(this).parents('ul').find('.loading_polly').show();
         });
     });
 
+    // update question_answers
+    $('button[id ^= save_question_]').on('click', function(){
 
+        var id_question = $(this).parents('ul').find('input[type=hidden]').val();
+        var question_answers = {};
 
+        $.each($(this).parents('ul').find('input[type ^= text].answer'), function(i, el){
+            var index = $(this).siblings('input[type ^= hidden]').val();
+            var value = $(this).val();
+            question_answers[index] = value;
+        });
 
-    /*$.ajax({
-     // url: "../admin.php",
-     // type: "POST",
-     // data: {new_question : new_question},
-     // dataType: "json"
-     cache: false,
-     success: function(data){
-     // $("#result").text(data);
-     }
-     });*/
-    /*.complete(function(data) {
-     console.log(data);
-     })
-     .success(function(data){
-     // console.log(data);
-     console.log('Получено с сервера: ' + data);
-     })
-     .error(function(data){
-     console.log(data);
-     });*/
+        var val_question = $(this).parents('ul').find('input[name^= question_]').val();
 
-    /*var data = {
-        action: 'hello',
-        cccp_polly_new_question: 'Юзверь'
-    };*/
+        var data = {
+            action: 'update_current_question',
+            id_question: id_question,
+            val_question: val_question,
+            question_answers: question_answers
+        };
 
+        $(this).parents('ul').find('.loading_polly').show();
+        // с версии 2.8 'ajaxurl' всегда определен в админке
+        $.post(ajaxurl, data, function (data) {
 
-    /*$.post( ajaxurl, data, function(response) {
+        })
+        .done(function() {
+            $('#client').text('Запрос отправлен на сервер!');
+            $('.loading_polly').hide();
+        })
+        .fail(function() { $('#client').text('Error!'); });
 
-    });*/
+    });
+
 });

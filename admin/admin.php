@@ -155,7 +155,6 @@ function cccp_options_page() {
         </div>
 
         <h2>Добавить вопрос</h2>
-<!--        <form name='cccp_polly_add_polly_form' method='post' action='--><?// $_SERVER['PHP_SELF']?><!--?page=cccp_polly&amp;update=true'>-->
         <form name='cccp_polly_add_polly_form' method='post' action='<? echo $_SERVER['PHP_SELF']?>' id='add_new_question'>
 
 <?php
@@ -175,16 +174,16 @@ function cccp_options_page() {
         <table id="add_new_polly">
             <tr>
                 <td>Задайте вопрос...</td>
-                <td><input type='text' name='cccp_polly_new_question' id='new_question' value='Эта функция будет вызвана только на странице плагина?' /><br>
+                <td><input type='text' name='cccp_polly_new_question' id='new_question' value='' /><br>
                 <input type='hidden' name='cccp_polly_future_id' value='<?php echo $maxid; ?>'/></td>
             </tr>
             <tr data-id="1">
                 <td>Ответ:</td>
-                <td ><input type='text' name='cccp_polly_answer[]' value='Да' /></td>
+                <td ><input type='text' name='cccp_polly_answer[]' value='' /></td>
             </tr>
             <tr data-id="2">
                 <td>Ответ:</td>
-                <td ><input type='text' name='cccp_polly_answer[]' value='Нет' /></td>
+                <td ><input type='text' name='cccp_polly_answer[]' value='' /></td>
             </tr>
         </table>
 
@@ -198,53 +197,14 @@ function cccp_options_page() {
                 <td><img src="<?php echo admin_url('/images/wpspin_light.gif'); ?>" class="waiting loading_polly" style="display: none;"></td>
             </tr>
             <tr>
-                <td><div id='result'></div></td>
+                <td><p id='client'></p><p id='server'></p></td>
                 <td></td>
             </tr>
         </table>
     </form>
 
 <?php
-/*
-    $future_id = $wpdb->get_results("
-        SELECT max(id) as `maxid` FROM `wp_cccp_polly_question`
-    ");
 
-    foreach ($future_id as $value) { $maxid = $value->maxid + 1; }
-
-    $table_question = $wpdb->get_blog_prefix().'cccp_polly_question';
-    $table_answer = $wpdb->get_blog_prefix().'cccp_polly_answer';
-
-    if (isset($_POST['cccp_polly_add_polly_btn'])){
-        $cccp_polly_question = $_POST['cccp_polly_question'];
-        $cccp_polly_answer = $_POST['cccp_polly_answer'];
-
-        $wpdb->insert(
-            $table_question,
-            array('question'=>$cccp_polly_question,'shortcode'=>''),
-            array('%s','%s')
-        );
-
-        $wpdb->insert(
-                $table_answer,
-                array('answer'=>$cccp_polly_answer,'counter'=>'0', 'parent'=>$maxid),
-                array('%s','%s','%s')
-            );
-
-        function polly_add_answers($wpdb, $table_answer, $value, $parentId){
-            $wpdb->insert(
-                $table_answer,
-                array('answer'=>$value,'counter'=>'0', 'parent'=>$parentId),
-                array('%s','%s','%s')
-            );
-        }
-
-        foreach($cccp_polly_answer as $value) {
-            polly_add_answers($wpdb, $table_answer, $value, $maxid);
-        };
-
-    }
-*/
 //    echo "<h2>Список вопросов</h2>";
     cccp_polly_change_polly();
 
@@ -257,10 +217,10 @@ function cccp_options_page() {
     //add_action('admin_print_scripts', 'my_action_javascript'); // такое подключение будет работать не всегда
 }
 
-add_action( 'wp_ajax_new_question', 'new_question' ); // For logged in users
+add_action( 'wp_ajax_add_new_question', 'add_new_question' ); // For logged in users
 //add_action( 'wp_ajax_nopriv_something', 'do_something_callback' ); // For anonymous users
 
-function new_question(){
+function add_new_question(){
     global $wpdb;
 
     // init tables DB
@@ -274,8 +234,6 @@ function new_question(){
 
         foreach ($future_id as $value) { $maxid = $value->maxid + 1; }
 
-
-
     // add new question to DB
         $new_question = $_POST['new_question'];
         $wpdb->insert(
@@ -286,57 +244,58 @@ function new_question(){
 
     // add new answers to DB
         $new_answers = $_POST['new_answers'];
-        function polly_add_answers($wpdb, $table_answer, $value, $parentId){
-            $wpdb->insert(
-                $table_answer,
-                array('answer'=>$value,'counter'=>'0', 'parent'=>$parentId),
-                array('%s','%s','%s')
-            );
-        }
+
+//        echo $table_answer;
 
         foreach($new_answers as $value) {
-            polly_add_answers($wpdb, $table_answer, $value, $maxid);
+            $wpdb->insert(
+                $table_answer,
+                array('answer'=>$value,'counter'=>'0', 'parent'=>$maxid),
+                array('%s','%s','%s')
+            );
         };
 
     wp_die();
 }
 
-/*add_action('wp_enqueue_script', 'my_assets');
-function my_assets() {
-//    wp_enqueue_script('ajax', plugins_url('/admin/js/ajax.js', __FILE__));
-    $ajax_js = plugins_url( 'js/ajax.js', __FILE__ );
-    wp_enqueue_script('ajax_js', $ajax_js, array('jquery') );
-}*/
+add_action( 'wp_ajax_update_current_question', 'update_current_question' ); // For logged in users
 
+function update_current_question(){
+    global $wpdb;
+
+    // init tables DB
+    $table_question = $wpdb->get_blog_prefix().'cccp_polly_question';
+    $table_answer = $wpdb->get_blog_prefix().'cccp_polly_answer';
+
+    $id_question = $_POST['id_question'];
+    $val_question = $_POST['val_question'];
+    $question_answers = $_POST['question_answers'];
+
+    $wpdb->update(
+        $table_question,
+        array('question'=>$val_question,'shortcode'=>''),
+        array('id' => $id_question ),
+        array('%s','%s'),
+        array( '%d' )
+    );
+
+    foreach($question_answers as $id => $value) {
+        $wpdb->update(
+            $table_answer,
+            array('answer'=>$value, 'parent'=>$id_question),
+            array('id' => $id ),
+            array('%s','%s','%s'),
+            array( '%d' )
+        );
+    };
+}
 
 
 function cccp_polly_change_polly() {
     global $wpdb;
-    $table_polly = $wpdb->get_blog_prefix().'cccp_polly_question';
 
     $table_question = $wpdb->get_blog_prefix().'cccp_polly_question';
     $table_answer = $wpdb->get_blog_prefix().'cccp_polly_answer';
-
-    /*
-    if (isset($_POST['cccp_polly_add_polly_btn'])){
-        $id_polly = $_POST['id'];
-        $question_polly = $_POST['question'];
-        $shortcode_polly = $_POST['shortcode'];
-
-        $wpdb->update(
-            $table_polly,
-            array('question'=>$question_polly,'shortcode'=>$shortcode_polly),
-            array('id'=>$id_polly),
-            array('%s','%s'),
-            array('%d')
-        );
-    }
-    */
-
-    // вывод списка вопросов
-    /*$questions = $wpdb->get_results("
-        SELECT wp_cccp_polly_question.question, wp_cccp_polly_answer.answer FROM `wp_cccp_polly_question`, `wp_cccp_polly_answer` WHERE wp_cccp_polly_question.id = wp_cccp_polly_answer.parent
-    ");*/
 
     /*выборка вопросов*/
     $questions = $wpdb->get_results("
@@ -345,56 +304,30 @@ function cccp_polly_change_polly() {
 
     /*выборка ответов*/
     $answers = $wpdb->get_results("
-        SELECT ".$table_answer.".parent, ".$table_answer.".answer FROM `".$table_answer."`
+        SELECT ".$table_answer.".id, ".$table_answer.".parent, ".$table_answer.".answer FROM `".$table_answer."`
     ");
 
     foreach ($questions as $question) {
-        echo "<ul id='data-item-".$question->id."'>";
+        echo "<ul>";
 //        echo "<form action='' method='post' name='form_question_".$question->id."'>";
-        echo "<li><p><b>ID=".$question->id."</b> <input name='question_".$question->id."' id='question_".$question->id."' type='text' value='".$question->question."'></p></li>";
+        echo "<li><p><b>ID=".$question->id."</b>
+        <input name='question_".$question->id."' id='question_".$question->id."' type='text' value='".$question->question."'>
+        <input type='hidden' value='".$question->id."' /></p></li>";
+
         foreach ($answers as $answer) {
             if ($question->id == $answer->parent) {
-                echo "<li><input type='text' value='".$answer->answer."'></li>";
+                echo "<li><input type='text' class='answer' value='".$answer->answer."'>";
+                echo "<input type='hidden' value='".$answer->id."'></li>";
             }
         }
 //        echo "<input type='submit' name='submit_question_".$question->id."' id='submit_question_".$question->id."' value='Сохранить вопрос №".$question->id."'>";
-        echo "<button id='submit_question_".$question->id."' class='button-primary'>Сохранить вопрос №".$question->id."</button> ";
+        echo "<button id='save_question_".$question->id."' class='button-primary'>Сохранить вопрос №".$question->id."</button> ";
+        echo "<img src='/wp-admin/images/wpspin_light.gif' class='waiting loading_polly' style='display: none;'>";
         echo "<input type='button' name='submit_remove_question_".$question->id."' value='Удалить' class='button-primary'>";
-//        echo "</form>";
         echo "</ul>";
     }
 
 }
-
-function cccp_polly_update_questions(){
-
-}
-
-function cccp_polly_add_polly(){
-    global $wpdb;
-
-//    $table_question = $wpdb->prefix.cccp_polly_question;
-//    $table_answer = $wpdb->prefix.cccp_polly_answer;
-
-    /*if (isset($_POST['cccp_polly_add_polly_btn'])){
-        if (function_exists('current_user_can') && !current_user_can('manage_options')) {
-            die (_e('Hacker?','cccp'));
-        }
-    }
-    if (function_exists('check_admin_referer')) {
-        check_admin_referer('cccp_polly_add_polly_form');
-    }*/
-
-
-}
-
-
-/*function cccp_submenu_page_content() {
-    echo '<div class="wrap">';
-    echo '<h2>Page Title</h2>';
-    echo '</div>';
-}*/
-
 
 
 add_action('admin_head', 'cccp_polly_add_options_link');
