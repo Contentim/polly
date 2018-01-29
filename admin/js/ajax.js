@@ -54,6 +54,7 @@ jQuery(document).ready(function($){
                 action: 'query_last_question_answers'
             };
 
+
             $.post(
                 ajaxurl,
                 data
