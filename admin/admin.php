@@ -239,7 +239,6 @@ function add_new_question(){
     // add new question to DB
         $new_question = $_POST['new_question'];
         $wpdb->insert(
-        //todo расскомментить
         $table_question,
         array('question'=>$new_question,'shortcode'=>''),
         array('%s','%s')
@@ -252,7 +251,6 @@ function add_new_question(){
 
         foreach($new_answers as $value) {
             $wpdb->insert(
-                // todo расскомментить
                 $table_answer,
                 array('answer'=>$value,'counter'=>'0', 'parent'=>$maxid),
                 array('%s','%s','%s')
