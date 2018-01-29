@@ -47,6 +47,7 @@ jQuery(document).ready(function($){
                 }
             };
 
+
             // console.log(last_question_answers.id);
             // console.log(last_question_answers.answers());
 
