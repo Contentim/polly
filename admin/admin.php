@@ -195,7 +195,7 @@ function cccp_options_page() {
         <table class="control_btn_new_polly">
 
             <tr>
-                <td colspan="2"><input type="button" value="Добавить вопрос" class="button-primary" id="add_new_answer"/><br><br></td>
+                <td colspan="2"><input type="button" value="Добавить вопрос" class="button-primary toast-item-image-notice" id="add_new_answer"/><br><br></td>
             </tr>
             <tr>
                 <!--<td><input type='submit' name='cccp_polly_add_polly_btn' id='cccp_polly_add_polly_btn' value='Создать' /></td>-->
