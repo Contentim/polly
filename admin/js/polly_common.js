@@ -3,33 +3,65 @@
         $("#tabs-msp-slider").tabs().addClass("ui-tabs-vertical ui-helper-clearfix");
         $("#tabs-msp-slider li").removeClass("ui-corner-top" ).addClass("ui-corner-left");
 
-
-
     });
 
-    /*var output = $('#output'); // блок вывода информации
-    $('button').on('click', function(){
-        console.log('sdnfsndf.,');
-        $.ajax({
-            url: '/action.php', // путь к php-обработчику
-            type: 'POST', // метод передачи данных
-            dataType: 'json', // тип ожидаемых данных в ответе
-            data: {key: 1}, // данные, которые передаем на сервер
-            beforeSend: function(){ // Функция вызывается перед отправкой запроса
-                output.text('Запрос отправлен. Ждите ответа.');
-            },
-            error: function(req, text, error){ // отслеживание ошибок во время выполнения ajax-запроса
-                output.text('Хьюстон, У нас проблемы! ' + text + ' | ' + error);
-            },
-            complete: function(){ // функция вызывается по окончании запроса
-                output.append('<p>Запрос полностью завершен!</p>');
-            },
-            success: function(json){ // функция, которая будет вызвана в случае удачного завершения запроса к серверу
-                // json - переменная, содержащая данные ответа от сервера. Обзывайте её как угодно ;)
-                output.html(json); // выводим на страницу данные, полученные с сервера
+
+    function showStickySuccessToast() {
+        $().toastmessage('showToast', {
+            text     : 'Success Dialog which is sticky',
+            sticky   : true,
+            position : 'top-right',
+            type     : 'success',
+            closeText: '',
+            close    : function () {
+                console.log("toast is closed ...");
             }
         });
-    });*/
+
+    }
+    function showNoticeToast() {
+        $().toastmessage('showNoticeToast', "Notice  Dialog which is fading away ...");
+    }
+    function showStickyNoticeToast() {
+        $().toastmessage('showToast', {
+            text     : 'Notice Dialog which is sticky',
+            sticky   : true,
+            position : 'top-right',
+            type     : 'notice',
+            closeText: '',
+            close    : function () {console.log("toast is closed ...");}
+        });
+    }
+    function showWarningToast() {
+        $().toastmessage('showWarningToast', "Warning Dialog which is fading away ...");
+    }
+    function showStickyWarningToast() {
+        $().toastmessage('showToast', {
+            text     : 'Warning Dialog which is sticky',
+            sticky   : true,
+            position : 'top-right',
+            type     : 'warning',
+            closeText: '',
+            close    : function () {
+                console.log("toast is closed ...");
+            }
+        });
+    }
+    function showErrorToast() {
+        $().toastmessage('showErrorToast', "Error Dialog which is fading away ...");
+    }
+    function showStickyErrorToast() {
+        $().toastmessage('showToast', {
+            text     : 'Error Dialog which is sticky',
+            sticky   : true,
+            position : 'top-right',
+            type     : 'error',
+            closeText: '',
+            close    : function () {
+                console.log("toast is closed ...");
+            }
+        });
+    }
 
 
 })(jQuery)

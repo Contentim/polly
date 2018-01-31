@@ -15,7 +15,7 @@ function init_scripts_method() {
     wp_enqueue_script('jquery_ui', $jquery_ui, array('jquery') );
 
     $toastmessage = plugins_url( 'js/jquery.toastmessage-min.js', __FILE__ );
-    wp_enqueue_script('toastmessage', $jquery_ui, array('jquery') );
+    wp_enqueue_script('toastmessage', $toastmessage, array('jquery') );
 
     $polly_common_js = plugins_url( 'js/polly_common.js', __FILE__ );
     wp_enqueue_script('polly_common_js', $polly_common_js, array('jquery') );
@@ -30,6 +30,7 @@ function cccp_polly_add_options_link() {
 //    echo '<script src="'.plugin_dir_url( __FILE__ ) .'js/jquery-ui.js"></script>';
 //    echo '<link href="'.plugin_dir_url( __FILE__ ) .'/css/bootstrap.min.css" rel="stylesheet" type="text/css">';
     echo '<link href="'.plugin_dir_url( __FILE__ ) .'css/jquery-ui.css" rel="stylesheet" type="text/css">';
+    echo '<link href="'.plugin_dir_url( __FILE__ ) .'css/jquery.toastmessage-min.css" rel="stylesheet" type="text/css">';
     echo '<link href="'.plugin_dir_url( __FILE__ ) .'css/common.css" rel="stylesheet" type="text/css">';
 
 
