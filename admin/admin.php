@@ -14,8 +14,12 @@ function init_scripts_method() {
     $jquery_ui = plugins_url( 'js/jquery-ui.js', __FILE__ );
     wp_enqueue_script('jquery_ui', $jquery_ui, array('jquery') );
 
+    $toastmessage = plugins_url( 'js/jquery.toastmessage-min.js', __FILE__ );
+    wp_enqueue_script('toastmessage', $jquery_ui, array('jquery') );
+
     $polly_common_js = plugins_url( 'js/polly_common.js', __FILE__ );
     wp_enqueue_script('polly_common_js', $polly_common_js, array('jquery') );
+
 
 }
 

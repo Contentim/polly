@@ -130,14 +130,11 @@ jQuery(document).ready(function($){
         };
 
         $(this).parents('ul').find('.loading_polly').show();
-        $.post(ajaxurl, data, function (data) {})
+        $.post(ajaxurl, data, function () {})
             .done(function() {
                 $('#client').text('Запрос отправлен на сервер!');
                 $('.loading_polly').hide();
-
-                // $(this).parents('ul').find('p').remove();
                 $this.parents('ul').remove();
-                console.log();
             })
             .fail(function() { $('#client').text('Error!'); });
 
