@@ -39,22 +39,12 @@ jQuery(document).ready(function($){
             $('#client').text('Запрос на добавление новой записи отправлен на сервер!');
             $('.loading_polly').hide();
 
-            var last_question_answers = {
-                id: $('#list_question_answers .question_answers:last').find('input[type^=hidden]').val(),
-                answers: function () {
-                    var r = 'answers';
-                    return r;
-                }
-            };
-
-
-            // console.log(last_question_answers.id);
+            console.log(data);
             // console.log(last_question_answers.answers());
 
             var data = {
                 action: 'query_last_question_answers'
             };
-
 
             $.post(
                 ajaxurl,
@@ -62,7 +52,7 @@ jQuery(document).ready(function($){
             ).done(function(element) {
                 // var object = $.parseJSON(element);
 
-                console.log(element);
+                // console.log(element);
                 $('#list_question_answers').append(element);
 
                 /*$.each($(object), function(i,e){
@@ -98,7 +88,7 @@ jQuery(document).ready(function($){
     });
 
     // update question_answers
-    $('button[id ^= save_question_]').on('click', function(){
+    $('body').on('click','button[id ^= save_question_]', function(){
 
         var id_question = $(this).parents('ul').find('input[type=hidden]').val();
         var question_answers = {};
@@ -120,14 +110,36 @@ jQuery(document).ready(function($){
 
         $(this).parents('ul').find('.loading_polly').show();
         // с версии 2.8 'ajaxurl' всегда определен в админке
-        $.post(ajaxurl, data, function (data) {
-
-        })
+        $.post(ajaxurl, data, function (data) {})
         .done(function() {
             $('#client').text('Запрос отправлен на сервер!');
             $('.loading_polly').hide();
         })
         .fail(function() { $('#client').text('Error!'); });
+
+    });
+
+    // REMOVE question_answers
+    $('body').on('click','input[name ^= remove_question_]', function(){
+        var id_question = $(this).parents('ul').find('input[type=hidden].id_question').val();
+        var $this = $(this);
+
+        var data = {
+            action: 'remove_current_question',
+            id_question: id_question
+        };
+
+        $(this).parents('ul').find('.loading_polly').show();
+        $.post(ajaxurl, data, function (data) {})
+            .done(function() {
+                $('#client').text('Запрос отправлен на сервер!');
+                $('.loading_polly').hide();
+
+                // $(this).parents('ul').find('p').remove();
+                $this.parents('ul').remove();
+                console.log();
+            })
+            .fail(function() { $('#client').text('Error!'); });
 
     });
 

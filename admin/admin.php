@@ -239,9 +239,9 @@ function add_new_question(){
     // add new question to DB
         $new_question = $_POST['new_question'];
         $wpdb->insert(
-        $table_question,
-        array('question'=>$new_question,'shortcode'=>''),
-        array('%s','%s')
+            $table_question,
+            array('id'=>$maxid,'question'=>$new_question,'shortcode'=>''),
+            array('%s','%s')
         );
 
     // add new answers to DB
@@ -260,7 +260,7 @@ function add_new_question(){
     wp_die();
 }
 
-add_action( 'wp_ajax_update_current_question', 'update_current_question' ); // For logged in users
+add_action( 'wp_ajax_update_current_question', 'update_current_question' );
 
 function update_current_question(){
     global $wpdb;
@@ -272,6 +272,10 @@ function update_current_question(){
     $id_question = $_POST['id_question'];
     $val_question = $_POST['val_question'];
     $question_answers = $_POST['question_answers'];
+
+    echo $id_question;
+    echo $val_question;
+    print_r ($question_answers);
 
     $wpdb->update(
         $table_question,
@@ -290,6 +294,36 @@ function update_current_question(){
             array( '%d' )
         );
     };
+
+    wp_die();
+}
+
+add_action( 'wp_ajax_remove_current_question', 'remove_current_question' );
+
+function remove_current_question(){
+    global $wpdb;
+
+    // init tables DB
+    $table_question = $wpdb->get_blog_prefix().'cccp_polly_question';
+    $table_answer = $wpdb->get_blog_prefix().'cccp_polly_answer';
+
+    $id_question = $_POST['id_question'];
+
+    $wpdb->delete(
+        $table_question,
+        array('id' => $id_question ),
+        array( '%d' )
+    );
+
+    $wpdb->delete(
+        $table_answer,
+        array('parent' => $id_question ),
+        array( '%d' )
+    );
+
+    print_r ($id_question);
+
+    wp_die();
 }
 
 
@@ -323,7 +357,7 @@ function query_last_question_answers() {
 //        echo "<form action='' method='post' name='form_question_".$question->id."'>";
         echo "<li><p><b>ID=".$question->id."</b></p></li>";
         echo "<li><input name='question_".$question->id."' id='question_".$question->id."' type='text' value='".$question->question."'>
-              <input type='hidden' value='".$question->id."' /></li>";
+              <input type='hidden' value='".$question->id."' class='id_question'/></li>";
 
         foreach ($answers as $answer) {
             if ($question->id == $answer->parent) {
@@ -334,7 +368,7 @@ function query_last_question_answers() {
 //        echo "<input type='submit' name='submit_question_".$question->id."' id='submit_question_".$question->id."' value='Сохранить вопрос №".$question->id."'>";
         echo "<button id='save_question_".$question->id."' class='button-primary'>Сохранить вопрос №".$question->id."</button> ";
         echo "<img src='/wp-admin/images/wpspin_light.gif' class='waiting loading_polly' style='display: none;'>";
-        echo "<input type='button' name='submit_remove_question_".$question->id."' value='Удалить' class='button-primary'>";
+        echo "<input type='button' name='remove_question_".$question->id."' value='Удалить' class='button-primary'>";
         echo "</ul>";
     }
     echo "</div>";
@@ -365,7 +399,7 @@ function cccp_polly_change_polly() {
 //        echo "<form action='' method='post' name='form_question_".$question->id."'>";
         echo "<li><p><b>ID=".$question->id."</b></p></li>";
         echo "<li><input name='question_".$question->id."' id='question_".$question->id."' type='text' value='".$question->question."'>
-              <input type='hidden' value='".$question->id."' /></li>";
+              <input type='hidden' value='".$question->id."' class='id_question'/></li>";
 
         foreach ($answers as $answer) {
             if ($question->id == $answer->parent) {
@@ -376,7 +410,7 @@ function cccp_polly_change_polly() {
 //        echo "<input type='submit' name='submit_question_".$question->id."' id='submit_question_".$question->id."' value='Сохранить вопрос №".$question->id."'>";
         echo "<button id='save_question_".$question->id."' class='button-primary'>Сохранить вопрос №".$question->id."</button> ";
         echo "<img src='/wp-admin/images/wpspin_light.gif' class='waiting loading_polly' style='display: none;'>";
-        echo "<input type='button' name='submit_remove_question_".$question->id."' value='Удалить' class='button-primary'>";
+        echo "<input type='button' name='remove_question_".$question->id."' value='Удалить' class='button-primary'>";
         echo "</ul>";
     }
     echo "</div>";
