@@ -1,7 +1,8 @@
 jQuery(document).ready(function($){
 
-    function showSuccessToast() {
-        $().toastmessage('showSuccessToast', "Success Dialog which is fading away ...");
+    function showStickySuccessToast() {
+        $().toastmessage('showSuccessToast', "Запись обновлена");
+
     }
 
     // add new field answer in empty
@@ -58,7 +59,7 @@ jQuery(document).ready(function($){
     // update question_answers
     $('body').on('click','button[id ^= save_question_]', function(){
 
-        showSuccessToast();
+        showStickySuccessToast();
 
         var id_question = $(this).parents('ul').find('input[type=hidden]').val();
         var question_answers = {};
@@ -80,7 +81,7 @@ jQuery(document).ready(function($){
 
         $(this).parents('ul').find('.loading_polly').show();
         $.post(ajaxurl, data, function () {})
-        .done(function() {
+        .done(function(data) {
             $('#client').text('Запрос отправлен на сервер!');
             $('.loading_polly').hide();
         })
