@@ -1,9 +1,17 @@
 jQuery(document).ready(function($){
 
-    function showStickySuccessToast() {
-        $().toastmessage('showSuccessToast', "Запись обновлена");
+    $('#test').on('click', function(){
+        var data = {
+            action: 'test_program'
+        };
 
-    }
+        $.post(ajaxurl, data, function () {
+        })
+            .done(function(data) {
+                showStickySuccessAdd();
+                $('#data_test').text(data);
+            });
+    });
 
     // add new field answer in empty
     $('#add_new_answer').on('click', function(){
@@ -15,6 +23,8 @@ jQuery(document).ready(function($){
         );
     });
 
+
+
     $('body').on('click','.remove_current_answer', function(){
         $(this).parents('tr').remove();
     });
@@ -23,7 +33,6 @@ jQuery(document).ready(function($){
     $('#cccp_polly_add_polly_btn').click(function(){
         var answers = [];
         var new_question = $("#new_question").val();
-
 
         $.each($('input[name ^= cccp_polly_answer]'), function(){
             answers.push($(this).val())
@@ -39,27 +48,27 @@ jQuery(document).ready(function($){
         $.post(ajaxurl, data, function () {
             $(this).parents('ul').find('.loading_polly').show();
         })
-        .done(function(data) {
-            $('#client').text('Запрос на добавление новой записи отправлен на сервер!');
+        .done(function() {
             $('.loading_polly').hide();
+
+            showStickySuccessAdd();
 
             var data = {
                 action: 'query_last_question_answers'
             };
 
-            $.post(
-                ajaxurl,
-                data
-            ).done(function(element) {
+            $.post(ajaxurl, data)
+            .done(function(element) {
                 $('#list_question_answers').append(element);
-            });
+
+            })
+            .error(function() { showErrorAdd() })
+            .fail(function() { showErrorAdd() });
         });
     });
 
     // update question_answers
     $('body').on('click','button[id ^= save_question_]', function(){
-
-        showStickySuccessToast();
 
         var id_question = $(this).parents('ul').find('input[type=hidden]').val();
         var question_answers = {};
@@ -81,11 +90,12 @@ jQuery(document).ready(function($){
 
         $(this).parents('ul').find('.loading_polly').show();
         $.post(ajaxurl, data, function () {})
-        .done(function(data) {
-            $('#client').text('Запрос отправлен на сервер!');
+        .done(function() {
+            showStickySuccessUpdate();
             $('.loading_polly').hide();
         })
-        .fail(function() { $('#client').text('Error!'); });
+        .error(function() { showErrorUpdate() })
+        .fail(function() { showErrorUpdate() });
 
     });
 
@@ -102,12 +112,40 @@ jQuery(document).ready(function($){
         $(this).parents('ul').find('.loading_polly').show();
         $.post(ajaxurl, data, function () {})
             .done(function() {
-                $('#client').text('Запрос отправлен на сервер!');
                 $('.loading_polly').hide();
                 $this.parents('ul').remove();
+                showStickySuccessRemove();
             })
-            .fail(function() { $('#client').text('Error!'); });
+            .error(function() { showErrorRemove() })
+            .fail(function() { showErrorRemove() });
 
     });
+
+    function showStickySuccessAdd() {
+        $().toastmessage('showSuccessToast', "Запись создана успешно");
+    }
+
+    function showErrorAdd() {
+        $().toastmessage('showErrorToast', "Ошибка создания новой записи");
+    }
+
+    function showStickySuccessUpdate() {
+        $().toastmessage('showSuccessToast', "Запись обновлена");
+    }
+
+    function showErrorUpdate() {
+        $().toastmessage('showErrorToast', "Ошибка обновления записи");
+    }
+
+    function showStickySuccessRemove() {
+        $().toastmessage('showSuccessToast', "Запись успешно удалена");
+    }
+
+    function showErrorRemove() {
+        $().toastmessage('showErrorToast', "Ошибка удаления записи");
+    }
+
+
+
 
 });

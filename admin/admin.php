@@ -23,6 +23,8 @@ function init_scripts_method() {
 
 }
 
+
+
 function cccp_polly_add_options_link() {
 
 //    echo '<script src="'.plugin_dir_url( __FILE__ ) .'js/jquery-1.11.3.min.js"></script>';
@@ -81,7 +83,7 @@ function cccp_options_page() {
 ?>
     <h1><span><?php _e('Тестовая страница','CCCP Polly'); ?></span> Отладочная страница для будущего плагина слайдера</h1>
 
-        <table class='hide'>
+        <table class='hide' style="display: none">
             <tr>
                 <td>
                     <input type='submit' name='add_slider' value='Создать новый слайдер'/>
@@ -89,7 +91,7 @@ function cccp_options_page() {
             </tr>
         </table>
 
-        <table class="wp-list-table widefat fixed striped posts wp-listslides-table hide ">
+        <table class="wp-list-table widefat fixed striped posts wp-listslides-table hide" style="display: none">
 		<thead>
 			<tr>
 				<th class"manage-column column-title column-primary sortable title" id="title" scope="col">Заголовок</th>
@@ -128,7 +130,7 @@ function cccp_options_page() {
 		</tfoot>
 	</table>
 
-        <div class="msp-panel-body hide">
+        <div class="msp-panel-body hide" style="display: none">
             <div class="wrap_vertical_tab">
                 <div id="tabs-msp-slider">
                   <ul>
@@ -176,6 +178,10 @@ function cccp_options_page() {
 
     foreach ($future_id as $value) { $maxid = $value->maxid + 1; }
 ?>
+
+            <p><input type='button' id='test' class='button-primary' value='Проверка данных ввода-вывода' /></p>
+            <p id="data_test"></p><br><br>
+
         <table id="add_new_polly">
             <tr>
                 <td>Задайте вопрос...</td>
@@ -219,10 +225,29 @@ function cccp_options_page() {
     }*/
     // add_shortcode( 'test_shortcode', 'add_shortcode' );
 
-
-    //add_action('admin_print_scripts', 'my_action_javascript'); // такое подключение будет работать не всегда
+    /*var $default_settings = array(
+        'phone' => '495 122-12-12',
+        'email' => 'info@site.ru'
+    );*/
+/*
+    add_option('themadmin', $default_settings);
+    var $options = get_option('themadmin');
+*/
+//    print_r($default_settings);
+    /*function footag_func( $atts ){
+        return "foo = ". $atts['foo'];
+    }
+    add_shortcode('footag', 'footag_func');*/
 }
 
+add_action( 'wp_ajax_test_program', 'test_program' ); // For logged in users
+//add_action( 'wp_ajax_nopriv_something', 'do_something_callback' ); // For anonymous users
+
+function test_program(){
+    echo "<div id='msp-helloworld-notice'>Hello, I'm your custom notice</div>";
+
+    wp_die();
+}
 
 add_action( 'wp_ajax_add_new_question', 'add_new_question' ); // For logged in users
 //add_action( 'wp_ajax_nopriv_something', 'do_something_callback' ); // For anonymous users
@@ -325,8 +350,6 @@ function remove_current_question(){
         array( '%d' )
     );
 
-    print_r ($id_question);
-
     wp_die();
 }
 
@@ -420,6 +443,5 @@ function cccp_polly_change_polly() {
     echo "</div>";
 
 }
-
 
 add_action('admin_head', 'cccp_polly_add_options_link');
