@@ -1,28 +1,34 @@
 <?php
 
-/** регистрация фильтров и событий **/
 add_action('init','cccp_polly_init');
 function cccp_polly_init(){
 
+    // подключение скрипта JS на фронтенд
     add_action( 'wp_enqueue_scripts', 'frontend_scripts' );
+
     function frontend_scripts() {
         $polly_frontend = plugins_url( '/js/polly_frontend.js', __FILE__ );
         wp_enqueue_script('polly_frontend', $polly_frontend, array('jquery') );
     }
 
+    // Работает только для зарегистрированых в фронтэнде
+    add_action( 'wp_ajax_front_test', 'front_test' );
 
-//    echo "fsdflskdf";
-    /*wp_deregister_script( 'jquery' );
-    wp_register_script( 'jquery', 'http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js');
-    wp_enqueue_script( 'jquery' );
+    // Только для не загестрированых в фронтэнде
+    add_action( 'wp_ajax_nopriv_front_test', 'front_test' );
 
-    $jquery_ui = plugins_url( 'js/jquery-ui.js', __FILE__ );
-    wp_enqueue_script('jquery_ui', $jquery_ui, array('jquery') );
+    function front_test(){
+        $id_question = $_POST['id'];
+        $val_checked = $_POST['val_checked'];
 
-    $toastmessage = plugins_url( 'js/jquery.toastmessage-min.js', __FILE__ );
-    wp_enqueue_script('toastmessage', $toastmessage, array('jquery') );*/
+        echo $id_question;
+        echo "<br>";
+        echo $val_checked;
 
-    /*$polly_common_js = plugins_url( 'js/polly_common.js', __FILE__ );
-    wp_enqueue_script('polly_common_js', $polly_common_js, array('jquery') );*/
+        wp_die();
+    }
+
+
+
 }
 

@@ -104,13 +104,14 @@ class cccp_polly_plugin{
             foreach ($answers as $answer ) {
                 $result .= "
                     <div class='answer'>
-                        <input type='radio' name='otvet' value='9' class='otvet' id='0'>".$answer->answer."
+                        <input type='radio' name='answer' value='".$answer->id."' class='answer' id='0'>".$answer->answer."
                     </div>";
             }
 
             $result .= "
                         <div class='button'>
-                        	<input type='button' name='result_question_".$question->id."' value='Голосовать' class='button-primary'>		
+                        	<input type='button' name='result_question_".$question->id."' value='Голосовать' class='button-primary'>
+                        	<input type='hidden' value='".$question->id."' />
                         </div>
                 </div>
             </div>
