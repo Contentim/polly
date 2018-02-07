@@ -13,6 +13,8 @@ jQuery(document).ready(function($){
             });
     });
 
+
+
     // add new field answer in empty
     $('#add_new_answer').on('click', function(){
         $('#add_new_polly').append(

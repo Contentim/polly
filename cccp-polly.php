@@ -83,11 +83,11 @@ class cccp_polly_plugin{
             ");
 
             // белый список параметров и значения по умолчанию
-            $atts = shortcode_atts( array(
+            /*$atts = shortcode_atts( array(
                 'id' => 'no foo fdgdfgd',
                 'question' => 'sdfsdf',
                 'answers' => 'asdasd'
-            ), $atts );
+            ), $atts );*/
 
 
             $result = "
@@ -105,6 +105,7 @@ class cccp_polly_plugin{
                 $result .= "
                     <div class='answer'>
                         <input type='radio' name='answer' value='".$answer->id."' class='answer' id='0'>".$answer->answer."
+                        <div id='polly_counter_".$answer->id."'></div>
                     </div>";
             }
 

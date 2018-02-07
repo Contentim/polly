@@ -18,7 +18,7 @@
 
             var val_checked = $('input[name=answer]:checked').val();
 
-            console.log(val_checked);
+            // console.log(val_checked);
 
 
             $.ajax({
@@ -32,6 +32,9 @@
                 },
                 success: function( e ) {
                     console.log(e);
+
+                    // $('polly_counter_')
+                    $('b').regex(/id/).css('color','red');
                 }
             })
         });
