@@ -106,6 +106,7 @@ class cccp_polly_plugin{
                     <div class='answer'>
                         <input type='radio' name='answer' value='".$answer->id."' class='answer' id='0'>".$answer->answer."
                         <div id='polly_counter_".$answer->id."'></div>
+                        <div id='polly_percentage_".$answer->id."'></div>
                     </div>";
             }
 

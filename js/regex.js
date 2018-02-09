@@ -1,3 +1,9 @@
+/*
+*
+* Example: $('b').regex(/id=1/).css('color','red');
+*
+ */
+
 (function($){
     $.fn.regex = function(pattern, fn, fn_a){
         var fn = fn || $.fn.text;

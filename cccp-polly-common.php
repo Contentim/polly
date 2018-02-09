@@ -3,8 +3,6 @@
 add_action('init','cccp_polly_init');
 function cccp_polly_init(){
 
-
-
     // подключение скрипта JS на фронтенд
     add_action( 'wp_enqueue_scripts', 'frontend_scripts' );
 
@@ -18,12 +16,12 @@ function cccp_polly_init(){
     }
 
     // Работает только для зарегистрированых в фронтэнде
-    add_action( 'wp_ajax_front_test', 'front_test' );
+    add_action( 'wp_ajax_polly_result', 'polly_result' );
 
     // Только для не загестрированых в фронтэнде
-    add_action( 'wp_ajax_nopriv_front_test', 'front_test' );
+    add_action( 'wp_ajax_nopriv_polly_result', 'polly_result' );
 
-    function front_test(){
+    function polly_result(){
         global $wpdb;
 
         // init tables DB
@@ -37,14 +35,11 @@ function cccp_polly_init(){
         echo " <br> ";
         echo $val_checked;*/
 
+        // выборка и обновление значения выбранного варианта ответов
         $counter = $wpdb->get_row("
             SELECT ".$table_answer.".counter FROM `".$table_answer."` WHERE id=".$val_checked."
         ");
-
         $this_counter = $counter->counter;
-
-        echo $this_counter;
-
         $wpdb->update(
             $table_answer,
             array( 'counter' => $this_counter + 1),
@@ -53,6 +48,29 @@ function cccp_polly_init(){
             array( '%d' )
         );
 
+        // вывод всех значений и расчет соотношения в %
+        /*выборка ответов - id+counter*/
+        $answers = $wpdb->get_results("
+            SELECT ".$table_answer.".id, ".$table_answer.".counter FROM `".$table_answer."` WHERE parent=".$id_question."
+        ");
+
+        // подсчет общего кол-ва голосов
+        $percentage = 0;
+        foreach($answers as $value){
+            $percentage = $percentage + $value->counter;
+        }
+
+        $data = [];
+        foreach($answers as $value){
+            $data[] = [
+                'id' => $value->id,
+                'counter' => $value->counter,
+                'percent' => round($value->counter / $percentage * 100)
+            ];
+        }
+
+        $json = json_encode($data);
+        print_r($json);
 
         wp_die();
     }

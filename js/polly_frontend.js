@@ -26,17 +26,52 @@
                 url: "/wp-admin/admin-ajax.php",
 
                 data:{
-                    'action': 'front_test',
+                    'action': 'polly_result',
                     'id': id_question,
                     'val_checked': val_checked
                 },
-                success: function( e ) {
-                    console.log(e);
+                success: function(json) {
+                    // console.log(json);
 
-                    // $('polly_counter_')
-                    $('b').regex(/id/).css('color','red');
+                    var common_counter = 0;
+
+                    var data = JSON.parse(json);
+                    $.each(data, function(i, e){
+
+                        common_counter += Number(e.counter);
+
+                        $('div[id^=polly_counter_]').each(function(){
+
+                            var regex = /(\d+)/;
+                            var id = $(this).prop('id');
+                            var val = id.match(regex);
+
+                            if (e.id == val[0]){
+                                $(this).text(e.counter);
+                             }
+
+                        });
+
+                        $('div[id^=polly_percentage_]').each(function(){
+
+                            var regex = /(\d+)/;
+                            var id = $(this).prop('id');
+                            var val = id.match(regex);
+
+                            if (e.id == val[0]){
+                                $(this).text(e.percent+'%');
+                            }
+
+                        });
+
+                        console.log("common_counter => " + common_counter);
+
+                    });
+
+                    $('h1').text(json);
+
                 }
-            })
+            });
         });
 
 
