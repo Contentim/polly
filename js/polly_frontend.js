@@ -63,8 +63,6 @@
 
                         });*/
 
-
-
                         /*$('div[id^=polly_percentage_]').each(function(){
 
                             var regex = /(\d+)/;
@@ -85,8 +83,6 @@
                 }
             });
         });
-
-
 
     });
 })(jQuery);
