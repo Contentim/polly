@@ -111,6 +111,7 @@ class cccp_polly_plugin{
             }
 
             $result .= "
+                        <div class='common_counter'></div>
                         <div class='button'>
                         	<input type='button' name='result_question_".$question->id."' value='Голосовать' class='button-primary'>
                         	<input type='hidden' value='".$question->id."' />

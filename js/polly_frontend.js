@@ -3,23 +3,31 @@
 
         // console.log($('input[name=answer]:checked').val());
 
+        function get_polly_result(container, id, value, symbol){
+            container.each(function(){
 
+                var regex = /(\d+)/;
+                var id_item = $(this).prop('id');
+                var val = id_item.match(regex);
+
+                if (id == val[0]){
+                    if (symbol!=undefined){
+                        $(this).text(value+symbol);
+                    } else {
+                        $(this).text(value);
+                    }
+
+                }
+
+            });
+        }
 
         $('input[name ^= result_question_]').on('click',function(){
             var id_question = $('#poll .button input[type=hidden]').val();
 
-            // использовать скрипт когда не станет кнопки Голосовать
-            /*$("input[name=answer]") // select the radio by its id
-                .change(function(){ // bind a function to the change event
-                    if( $(this).is(":checked") ){ // check if the radio is checked
-                        var val_checked = $(this).val(); // retrieve the value
-                    }
-                });*/
+            $('#poll input[name=answer]').hide();
 
             var val_checked = $('input[name=answer]:checked').val();
-
-            // console.log(val_checked);
-
 
             $.ajax({
                 type: "POST",
@@ -40,7 +48,10 @@
 
                         common_counter += Number(e.counter);
 
-                        $('div[id^=polly_counter_]').each(function(){
+                        get_polly_result($('div[id^=polly_counter_]'), e.id, e.counter);
+                        get_polly_result($('div[id^=polly_percentage_]'), e.id, e.percent, '%');
+
+                        /*$('div[id^=polly_counter_]').each(function(){
 
                             var regex = /(\d+)/;
                             var id = $(this).prop('id');
@@ -50,9 +61,11 @@
                                 $(this).text(e.counter);
                              }
 
-                        });
+                        });*/
 
-                        $('div[id^=polly_percentage_]').each(function(){
+
+
+                        /*$('div[id^=polly_percentage_]').each(function(){
 
                             var regex = /(\d+)/;
                             var id = $(this).prop('id');
@@ -62,13 +75,12 @@
                                 $(this).text(e.percent+'%');
                             }
 
-                        });
+                        });*/
 
-                        console.log("common_counter => " + common_counter);
-
+                        $('.common_counter').text('Количество ответов - ' + common_counter);
                     });
 
-                    $('h1').text(json);
+                    // $('h1').text(json);
 
                 }
             });
