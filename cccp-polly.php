@@ -82,14 +82,6 @@ class cccp_polly_plugin{
                 SELECT ".$table_answer.".id, ".$table_answer.".answer FROM `".$table_answer."` WHERE parent=".$atts[id]."
             ");
 
-            // белый список параметров и значения по умолчанию
-            /*$atts = shortcode_atts( array(
-                'id' => 'no foo fdgdfgd',
-                'question' => 'sdfsdf',
-                'answers' => 'asdasd'
-            ), $atts );*/
-
-
             $result = "
             <h2>Голосовалка <b>id=".$atts[id]."</b></h2>
             <div id='cccp_polly_".$atts[id]."'>
@@ -99,7 +91,7 @@ class cccp_polly_plugin{
                 $result .= "<h3 class='pollTitle'>".$question->question."</h3>";
             }
 
-            $result .= "<div id='poll'>";
+            $result .= "<div id='poll_".$atts[id]."'>";
 
             foreach ($answers as $answer ) {
                 $result .= "
