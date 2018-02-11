@@ -2,6 +2,7 @@
 
 if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 
+
 //$page1 = add_submenu_page('msp_helloworld', 'Overview : Creative Image Slider', 'Overview', 'manage_options', 'msp_helloworld', 'wpcis_admin');
 
 // подключение скриптов на всех страницах админки
@@ -164,6 +165,8 @@ function cccp_options_page() {
         <h2>Добавить вопрос</h2>
         <form name='cccp_polly_add_polly_form' method='post' action='<? echo $_SERVER['PHP_SELF']?>' id='add_new_question'>
 
+<?php //wp_nonce_field( 'polly_nonce_action'); ?>
+
 <?php
     /*if (function_exists('wp_nonce_field')) {
         wp_nonce_field('cccp_polly_add_polly_form');
@@ -178,6 +181,8 @@ function cccp_options_page() {
 
     foreach ($future_id as $value) { $maxid = $value->maxid + 1; }
 ?>
+
+
 
             <p><input type='button' id='test' class='button-primary' value='Проверка данных ввода-вывода' /></p>
             <p id="data_test"></p><br><br>
@@ -210,7 +215,6 @@ function cccp_options_page() {
             </tr>
             <tr>
                 <td><p id='client'></p><p id='server'></p></td>
-                <td></td>
             </tr>
         </table>
     </form>
@@ -295,36 +299,55 @@ add_action( 'wp_ajax_update_current_question', 'update_current_question' );
 function update_current_question(){
     global $wpdb;
 
-    // init tables DB
-    $table_question = $wpdb->get_blog_prefix().'cccp_polly_question';
-    $table_answer = $wpdb->get_blog_prefix().'cccp_polly_answer';
+//    check_admin_referer( 'polly_nonce_action' );
 
-    $id_question = $_POST['id_question'];
-    $val_question = $_POST['val_question'];
-    $question_answers = $_POST['question_answers'];
+//    if ( check_admin_referer( 'polly_nonce_action', 'polly_nonce_fields' ) ) {
 
-    echo $id_question;
-    echo $val_question;
+        // init tables DB
+        $table_question = $wpdb->get_blog_prefix() . 'cccp_polly_question';
+        $table_answer = $wpdb->get_blog_prefix() . 'cccp_polly_answer';
 
-    $wpdb->update(
-        $table_question,
-        array('question'=>$val_question,'shortcode'=>''),
-        array('id' => $id_question ),
-        array('%s','%s'),
-        array( '%d' )
-    );
+        $id_question = $_POST['id_question'];
+        $val_question = $_POST['val_question'];
+        $question_answers = $_POST['question_answers'];
 
-    foreach($question_answers as $id => $value) {
+
+
+//        echo $id_question;
+//        echo $val_question;
+
         $wpdb->update(
-            $table_answer,
-            array('answer'=>$value, 'parent'=>$id_question),
-            array('id' => $id ),
-            array('%s','%s','%s'),
-            array( '%d' )
+            $table_question,
+            array('question' => $val_question, 'shortcode' => ''),
+            array('id' => $id_question),
+            array('%s', '%s'),
+            array('%d')
         );
-    };
 
-    wp_die();
+        foreach ($question_answers as $id => $value) {
+            $wpdb->update(
+                $table_answer,
+                array('answer' => $value, 'parent' => $id_question),
+                array('id' => $id),
+                array('%s', '%s', '%s'),
+                array('%d')
+            );
+        };
+
+    /*if ( check_admin_referer('polly_nonce_action','polly_nonce_field') )
+    {
+        echo "TST";
+    }*/
+
+    // Если проверка не пройдена, check_admin_referer() автоматически выведет сообщение и прервет работу PHP.
+   /* if( check_admin_referer( 'polly_nonce_action', 'polly_nonce_field' ) ) {
+        // обрабатываем полученные данные
+    }*/
+
+        wp_die();
+//    }
+
+
 }
 
 add_action( 'wp_ajax_remove_current_question', 'remove_current_question' );
@@ -435,9 +458,9 @@ function cccp_polly_change_polly() {
             }
         }
 //        echo "<input type='submit' name='submit_question_".$question->id."' id='submit_question_".$question->id."' value='Сохранить вопрос №".$question->id."'>";
-        echo "<button id='save_question_".$question->id."' class='button-primary'>Сохранить вопрос №".$question->id."</button> ";
+        echo "<li><button id='save_question_".$question->id."' class='button-primary'>Сохранить вопрос №".$question->id."</button> ";
         echo "<img src='/wp-admin/images/wpspin_light.gif' class='waiting loading_polly' style='display: none;'>";
-        echo "<input type='button' name='remove_question_".$question->id."' value='Удалить' class='button-primary'>";
+        echo "<input type='button' name='remove_question_".$question->id."' value='Удалить' class='button-primary'></li>";
         echo "</ul>";
     }
     echo "</div>";

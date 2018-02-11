@@ -75,7 +75,5 @@ function cccp_polly_init(){
         wp_die();
     }
 
-
-
 }
 

@@ -92,9 +92,10 @@ jQuery(document).ready(function($){
 
         $(this).parents('ul').find('.loading_polly').show();
         $.post(ajaxurl, data, function () {})
-        .done(function() {
+        .done(function(data) {
             showStickySuccessUpdate();
             $('.loading_polly').hide();
+            console.log(data);
         })
         .error(function() { showErrorUpdate() })
         .fail(function() { showErrorUpdate() });

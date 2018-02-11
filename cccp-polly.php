@@ -9,7 +9,8 @@ Author: Ivan Goncharenko
 Author URI: http://contentim.ru
 */
 
-/*  Copyright 2018  Ivan Goncharenko  (email: contentim@yandex.ru)
+/*
+Copyright 2018  Ivan Goncharenko  (email: contentim@yandex.ru)
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -35,7 +36,6 @@ define( 'CCCP_POLLY_PLUGIN', __FILE__ );
 define( 'CCCP_POLLY_PLUGIN_DIR', untrailingslashit( dirname( CCCP_POLLY_PLUGIN ) ) );
 
 
-
 //require_once (dirname(__FILE__).'/cccp-polly-action.php');
 class cccp_polly_plugin{
 
@@ -51,10 +51,7 @@ class cccp_polly_plugin{
         register_activation_hook( __FILE__,'cccp_polly_install');
         register_deactivation_hook(__FILE__,'cccp_polly_uninstall');
 
-//        add_action('init', array($this,'register_location_content_type')); //регистрирует тип контента местоположения
-
         add_action('admin_menu','cccp_polly_admin_pages');
-
 
 //        add_action('wp_ajax_(action)', 'my_action_callback');
 //        add_action('wp_ajax_nopriv_(action)', 'my_action_callback');
@@ -83,8 +80,8 @@ class cccp_polly_plugin{
             ");
 
             $result = "
-            <h2>Голосовалка <b>id=".$atts[id]."</b></h2>
-            <div id='cccp_polly_".$atts[id]."'>
+                <h2>Голосовалка <b>id=".$atts[id]."</b></h2>
+                <div id='cccp_polly_".$atts[id]."'>
             ";
 
             foreach ($questions as $question ) {
@@ -115,6 +112,7 @@ class cccp_polly_plugin{
             return $result;
         }
     }
+
 }
 
 new cccp_polly_plugin();
